@@ -40,8 +40,8 @@ async function card() {
         yourcard1.value !== "QUEEN" &&
         yourcard1.value !== "JACK"
       ) {
-        Number(yourcard1.value);
-        console.log(yourcard1.value);
+        let value1 = yourcard1.value;
+        value1 = Number(value1);
       }
       if (
         yourcard2.value !== "ACE" &&
@@ -49,15 +49,13 @@ async function card() {
         yourcard2.value !== "QUEEN" &&
         yourcard2.value !== "JACK"
       ) {
-        Number(yourcard2.value);
-        console.log(yourcard2.value);
+        let value2 = yourcard2.value;
+        value2 = Number(value2);
       }
-      if (
-        typeof yourcard1.value === Number &&
-        typeof yourcard2.value === Number
-      ) {
-        let value = yourcard1.value + yourcard2.value;
-        console.log(value);
+
+      if (typeof value1 === Number && typeof value2 === Number) {
+        let WhyisLaithcopyingme = value1 + value2;
+        console.log(WhyisLaithcopyingme);
       }
     }
   } catch (error) {
