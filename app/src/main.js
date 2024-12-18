@@ -52,8 +52,8 @@ async function card() {
         let value2 = yourcard2.value;
         value2 = Number(value2);
       }
-
-      if (typeof value1 === Number && typeof value2 === Number) {
+      console.log(value1);
+      if ((typeof value1 === Number) & (typeof value2 === Number)) {
         let WhyisLaithcopyingme = value1 + value2;
         console.log(WhyisLaithcopyingme);
       }
