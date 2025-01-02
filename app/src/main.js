@@ -25,6 +25,9 @@ async function card() {
       let yourcard2 = deck.cards[1];
       console.log(yourcard2);
 
+      let value1;
+      let value2;
+
       document.querySelector(".container").insertAdjacentHTML(
         "beforeend",
         `
@@ -40,7 +43,7 @@ async function card() {
         yourcard1.value !== "QUEEN" &&
         yourcard1.value !== "JACK"
       ) {
-        let value1 = yourcard1.value;
+        value1 = yourcard1.value;
         value1 = Number(value1);
       }
       if (
@@ -49,13 +52,39 @@ async function card() {
         yourcard2.value !== "QUEEN" &&
         yourcard2.value !== "JACK"
       ) {
-        let value2 = yourcard2.value;
+        value2 = yourcard2.value;
         value2 = Number(value2);
       }
+
+      if (
+        yourcard1.value === "KING" ||
+        yourcard1.value === "QUEEN" ||
+        yourcard1.value === "JACK"
+      ) {
+        value1 = 10;
+
+        console.log(typeof value1);
+      }
+      if (
+        yourcard2.value === "KING" ||
+        yourcard2.value === "QUEEN" ||
+        yourcard2.value === "JACK"
+      ) {
+        value2 = 10;
+      }
+
       console.log(value1);
-      if ((typeof value1 === Number) & (typeof value2 === Number)) {
+      if ((typeof value1 === "number") & (typeof value2 === "number")) {
         let WhyisLaithcopyingme = value1 + value2;
         console.log(WhyisLaithcopyingme);
+        document.querySelector(".container").insertAdjacentHTML(
+          "beforeend",
+          `
+          <div class = "Total">
+            <h2>${WhyisLaithcopyingme}</h2>
+          </div>
+          `
+        );
       }
     }
   } catch (error) {
