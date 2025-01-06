@@ -1,6 +1,8 @@
 import "./style.css";
 let value1;
 let value2;
+let enemyvalue1;
+let enemyvalue2;
 
 function checkvalue(yourcard) {
   let cardvalue;
@@ -65,12 +67,16 @@ async function card() {
 
       if ((typeof value1 === "number") & (typeof value2 === "number")) {
         let WhyisLaithcopyingme = value1 + value2;
+        if (WhyisLaithcopyingme > 21) {
+          value2 = 1;
+          WhyisLaithcopyingme = value1 + value2;
+        }
         console.log(WhyisLaithcopyingme);
         document.querySelector(".container").insertAdjacentHTML(
           "beforeend",
           `
           <div class = "Total">
-            <h2>${WhyisLaithcopyingme}</h2>
+            <h2>${WhyisLaithcopyingme} Your cards:</h2>
           </div>
           `
         );
@@ -105,12 +111,16 @@ async function card() {
         (typeof enemyvalue2 === "number")
       ) {
         let Laithisabum = enemyvalue1 + enemyvalue2;
+        if (Laithisabum > 21) {
+          enemyvalue2 = 1;
+          Laithisabum = enemyvalue1 + enemyvalue2;
+        }
         console.log(Laithisabum);
         document.querySelector(".container").insertAdjacentHTML(
           "beforeend",
           `
           <div class = "Total">
-            <h2>${Laithisabum}</h2>
+            <h2>${Laithisabum} Opponent's cards:</h2>
           </div>
           `
         );
@@ -121,6 +131,7 @@ async function card() {
         <div class = "enemycards">
           <img src = "${enemycard1.image}" class = "enemycard-image" alt = "enemycard1">
           <img src = "${enemycard2.image}" class = "enemycard-image" alt = "enemycard1">
+          <img src = "public/garfield.jpg" class = "awsome-image" alt = "awsome">
         </div>
         `
       );
