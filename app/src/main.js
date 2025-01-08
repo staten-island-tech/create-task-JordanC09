@@ -35,7 +35,12 @@ function checkvalue(yourcard) {
     return cardvalue;
   }
 }
-
+async function hit(deckid, current_total) {
+  const hitting = await fetch(
+    `https://deckofcardsapi.com/api/deck/${deckid}/draw/?count=2`
+  );
+  deck = await bruh.json();
+}
 async function card() {
   try {
     const response = await fetch(
@@ -91,6 +96,15 @@ async function card() {
         </div>
         `
       );
+      document.querySelector(".container").insertAdjacentHTML(
+        "beforeend",
+        `
+        <div class = "hitorstand">
+          <button class ="hitbutton">Hit</button>
+          <button class ="standbutton">Stand</button>
+        </div>
+        `
+      );
 
       const enemy = await fetch(
         `https://deckofcardsapi.com/api/deck/${deckid}/draw/?count=2`
@@ -131,7 +145,7 @@ async function card() {
         <div class = "enemycards">
           <img src = "${enemycard1.image}" class = "enemycard-image" alt = "enemycard1">
           <img src = "${enemycard2.image}" class = "enemycard-image" alt = "enemycard1">
-          <img src = "public/garfield.jpg" class = "awsome-image" alt = "awsome">
+          <img src = "/garfield.jpg" class = "awsome-image" alt = "awsome">
         </div>
         `
       );
