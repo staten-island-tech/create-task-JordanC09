@@ -3,6 +3,9 @@ let value1;
 let value2;
 let enemyvalue1;
 let enemyvalue2;
+let newcard;
+let yourtotal;
+let enemytotal;
 
 function checkvalue(yourcard) {
   let cardvalue;
@@ -35,12 +38,35 @@ function checkvalue(yourcard) {
     return cardvalue;
   }
 }
-async function hit(deckid, current_total) {
+async function hit(deckid, current_total, deck) {
+  try {}
   const hitting = await fetch(
-    `https://deckofcardsapi.com/api/deck/${deckid}/draw/?count=2`
+    `https://deckofcardsapi.com/api/deck/${deckid}/draw/?count=1`
   );
-  deck = await bruh.json();
+  deck = await hitting.json();
+  newcard = deck.cards[0];
+  console.log(newcard);
+  let newcardvalue = checkvalue(newcard);
+  document.querySelector(".yourcards").insertAdjacentHTML(
+    "beforeend",
+    `
+    
+    <img src = "${newcard.image}" class = "card-image" alt = "newcard">
+    
+    
+    `
+  );
+  console.log(current_total + newcardvalue);
+  return current_total + newcardvalue;
 }
+
+async function bustorno(yourtotal) {
+  await hit();
+  if (yourtotal > 21) {
+    console.log("bust");
+  }
+}
+
 async function card() {
   try {
     const response = await fetch(
@@ -71,17 +97,17 @@ async function card() {
       value2 = checkvalue(yourcard2);
 
       if ((typeof value1 === "number") & (typeof value2 === "number")) {
-        let WhyisLaithcopyingme = value1 + value2;
-        if (WhyisLaithcopyingme > 21) {
+        yourtotal = value1 + value2;
+        if (yourtotal > 21) {
           value2 = 1;
-          WhyisLaithcopyingme = value1 + value2;
+          yourtotal = value1 + value2;
         }
-        console.log(WhyisLaithcopyingme);
+        console.log(yourtotal);
         document.querySelector(".container").insertAdjacentHTML(
           "beforeend",
           `
           <div class = "Total">
-            <h2>${WhyisLaithcopyingme} Your cards:</h2>
+            <h2>${yourtotal} Your cards:</h2>
           </div>
           `
         );
@@ -124,17 +150,17 @@ async function card() {
         (typeof enemyvalue1 === "number") &
         (typeof enemyvalue2 === "number")
       ) {
-        let Laithisabum = enemyvalue1 + enemyvalue2;
-        if (Laithisabum > 21) {
+        enemytotal = enemyvalue1 + enemyvalue2;
+        if (enemytotal > 21) {
           enemyvalue2 = 1;
-          Laithisabum = enemyvalue1 + enemyvalue2;
+          enemytotal = enemyvalue1 + enemyvalue2;
         }
-        console.log(Laithisabum);
+        console.log(enemytotal);
         document.querySelector(".container").insertAdjacentHTML(
           "beforeend",
           `
           <div class = "Total">
-            <h2>${Laithisabum} Opponent's cards:</h2>
+            <h2>${enemytotal} Opponent's cards:</h2>
           </div>
           `
         );
@@ -149,9 +175,15 @@ async function card() {
         </div>
         `
       );
+      document
+        .querySelector(".hitbutton")
+        .addEventListener("click", function () {
+          yourtotal = hit(deckid, yourtotal, deck);
+          bustorno(yourtotal);
+        });
     }
   } catch (error) {
-    alert("hey I could not find that agent unc");
+    alert("hey I could not find that agent");
   }
 }
 
