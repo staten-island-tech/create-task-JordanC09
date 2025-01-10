@@ -39,29 +39,40 @@ function checkvalue(yourcard) {
   }
 }
 async function hit(deckid, current_total, deck) {
-  try {}
-  const hitting = await fetch(
-    `https://deckofcardsapi.com/api/deck/${deckid}/draw/?count=1`
-  );
-  deck = await hitting.json();
-  newcard = deck.cards[0];
-  console.log(newcard);
-  let newcardvalue = checkvalue(newcard);
-  document.querySelector(".yourcards").insertAdjacentHTML(
-    "beforeend",
-    `
-    
-    <img src = "${newcard.image}" class = "card-image" alt = "newcard">
-    
-    
-    `
-  );
-  console.log(current_total + newcardvalue);
-  return current_total + newcardvalue;
+  console.log(deckid);
+  try {
+    const hitting = await fetch(
+      `https://deckofcardsapi.com/api/deck/${deckid}/draw/?count=1`
+    );
+
+    if (response.status != 200) {
+      throw new Error(hitting);
+    } else {
+      console.log("jhgfdjlsdeg");
+      deck = await hitting.json();
+      newcard = deck.cards[0];
+      console.log(newcard);
+
+      let newcardvalue = checkvalue(newcard);
+      document.querySelector(".yourcards").insertAdjacentHTML(
+        "beforeend",
+        `
+        
+        <img src = "${newcard.image}" class = "card-image" alt = "newcard">
+        
+        
+        `
+      );
+      console.log(current_total + newcardvalue);
+      return current_total + newcardvalue;
+    }
+  } catch (error) {
+    alert("hey I could not find that agent");
+    return current_total;
+  }
 }
 
-async function bustorno(yourtotal) {
-  await hit();
+function bustorno(yourtotal) {
   if (yourtotal > 21) {
     console.log("bust");
   }
@@ -177,8 +188,8 @@ async function card() {
       );
       document
         .querySelector(".hitbutton")
-        .addEventListener("click", function () {
-          yourtotal = hit(deckid, yourtotal, deck);
+        .addEventListener("click", async function () {
+          yourtotal = await hit(deckid, yourtotal, deck);
           bustorno(yourtotal);
         });
     }
