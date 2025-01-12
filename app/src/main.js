@@ -45,7 +45,7 @@ async function hit(deckid, current_total, deck) {
       `https://deckofcardsapi.com/api/deck/${deckid}/draw/?count=1`
     );
 
-    if (response.status != 200) {
+    if (hitting.status != 200) {
       throw new Error(hitting);
     } else {
       console.log("jhgfdjlsdeg");
@@ -75,6 +75,18 @@ async function hit(deckid, current_total, deck) {
 function bustorno(yourtotal) {
   if (yourtotal > 21) {
     console.log("bust");
+    document.querySelector(".container").insertAdjacentHTML(
+      "beforeend",
+      `
+      <div class = "Total">
+        <h2>You Busted, Womp Womp</h2>
+      </div>
+      `
+    );
+  } else if (yourtotal === 21){
+    console.log("BlackJack!");
+  } else{
+    console.log("continue");
   }
 }
 
@@ -182,7 +194,7 @@ async function card() {
         <div class = "enemycards">
           <img src = "${enemycard1.image}" class = "enemycard-image" alt = "enemycard1">
           <img src = "${enemycard2.image}" class = "enemycard-image" alt = "enemycard1">
-          <img src = "/garfield.jpg" class = "awsome-image" alt = "awsome">
+          
         </div>
         `
       );
