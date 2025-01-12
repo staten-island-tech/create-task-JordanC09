@@ -7,6 +7,8 @@ let newcard;
 let yourtotal;
 let enemytotal;
 
+
+
 function checkvalue(yourcard) {
   let cardvalue;
   if (
@@ -38,7 +40,7 @@ function checkvalue(yourcard) {
     return cardvalue;
   }
 }
-async function hit(deckid, current_total, deck) {
+async function hit(deckid, current_total, deck, who) {
   console.log(deckid);
   try {
     const hitting = await fetch(
@@ -54,15 +56,28 @@ async function hit(deckid, current_total, deck) {
       console.log(newcard);
 
       let newcardvalue = checkvalue(newcard);
-      document.querySelector(".yourcards").insertAdjacentHTML(
-        "beforeend",
-        `
-        
-        <img src = "${newcard.image}" class = "card-image" alt = "newcard">
-        
-        
-        `
-      );
+      if (who === "Enemy"){
+        document.querySelector(".enemycards").insertAdjacentHTML(
+          "beforeend",
+          `
+          
+          <img src = "${newcard.image}" class = "card-image" alt = "newcard">
+          
+          
+          `
+        );
+      } else{
+        document.querySelector(".yourcards").insertAdjacentHTML(
+          "beforeend",
+          `
+          
+          <img src = "${newcard.image}" class = "card-image" alt = "newcard">
+          
+          
+          `
+        );
+      }
+      
       console.log(current_total + newcardvalue);
       return current_total + newcardvalue;
     }
@@ -72,22 +87,30 @@ async function hit(deckid, current_total, deck) {
   }
 }
 
-function bustorno(yourtotal) {
-  if (yourtotal > 21) {
+function bustorno(total, who) {
+  //do iteration here to check if i busted, if any cards are aces, then set them to 1, and see if i still busted
+  //DELETE THIS AFTER
+  let result;
+  if (who === "You"){
+    document.querySelector(".Total").innerHTML = `${total} Your cards:`;
+  } else{
+    document.querySelector(".ETotal").innerHTML = `${total} Opponent's cards:`;
+  }
+  if (total > 21) {
     console.log("bust");
-    document.querySelector(".container").insertAdjacentHTML(
-      "beforeend",
-      `
-      <div class = "Total">
-        <h2>You Busted, Womp Womp</h2>
-      </div>
-      `
-    );
-  } else if (yourtotal === 21){
+    
+    result = "Bust";
+    
+  } else if (total === 21){
     console.log("BlackJack!");
+    result = "BlackJack";
   } else{
     console.log("continue");
+    result = "CanContinue";
+    
+    
   }
+  return result;
 }
 
 async function card() {
@@ -182,7 +205,7 @@ async function card() {
         document.querySelector(".container").insertAdjacentHTML(
           "beforeend",
           `
-          <div class = "Total">
+          <div class = "ETotal">
             <h2>${enemytotal} Opponent's cards:</h2>
           </div>
           `
@@ -198,12 +221,63 @@ async function card() {
         </div>
         `
       );
-      document
-        .querySelector(".hitbutton")
-        .addEventListener("click", async function () {
-          yourtotal = await hit(deckid, yourtotal, deck);
-          bustorno(yourtotal);
-        });
+      if (yourtotal === 21){
+        document.querySelector(".container").innerHTML = "";
+        document.querySelector(".container").insertAdjacentHTML(
+          "beforeend",
+          `
+          <div class = "Win">
+            <h2>You got BLACKJACK! Try your luck again!</h2>
+            
+          </div>
+          `
+        );
+      }
+      if (document.querySelector(".hitbutton")){
+        document
+          .querySelector(".hitbutton")
+          .addEventListener("click", async function () {
+            yourtotal = await hit(deckid, yourtotal, deck, "You");
+            
+            let afterhit = bustorno(yourtotal, "You");
+
+            if (afterhit === "Bust"){
+              document.querySelector(".hitorstand").innerHTML = "";
+              document.querySelector(".yourcards").insertAdjacentHTML(
+                "beforeend",
+                `
+                <div class = "Bust">
+                  <h2>You Busted, But Do Not Despair! You can always Try again!</h2>
+                  <img src = "public/again.webp" class = "winners-image" alt = "winning">
+                  <button class ="tryagain">Play Again? You know you want to</button>
+                </div>
+                `
+              );
+            } else if (afterhit === "BlackJack"){
+              document.querySelector(".container").innerHTML = "";
+              document.querySelector(".container").insertAdjacentHTML(
+                "beforeend",
+                `
+                <div class = "Win">
+                  <h2>You got BLACKJACK! Try your luck again!</h2>
+                  <img src = "public/again.jpg" class = "winners-image" alt = "winning">
+                </div>
+                `
+              );
+            }
+
+
+          });
+        document.querySelector(".standbutton").addEventListener("click", async function() {
+          while(enemytotal < yourtotal || enemytotal === 21){
+            enemytotal = await hit(deckid, enemytotal, deck, "Enemy");
+            bustorno(enemytotal, "Enemy");
+            console.log("end of loop");
+            console.log(enemytotal);
+
+          }
+        })
+      }
     }
   } catch (error) {
     alert("hey I could not find that agent");
