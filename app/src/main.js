@@ -134,6 +134,7 @@ function beting(money){
     </form>
     `
   )
+  return money;
 }
 
 function adjustmoney(outcome, betamount, money){
@@ -162,7 +163,7 @@ async function card() {
       let data = await response.json();
       console.log(data);
 
-      beting(money);
+      money = beting(money);
       document.querySelector("form").addEventListener("submit", async function (event) {
         event.preventDefault();
 
