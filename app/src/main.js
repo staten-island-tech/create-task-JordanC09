@@ -309,7 +309,7 @@ async function card() {
                     `
                     <div class = "Bust">
                       <h2>You Busted and also you're broke. GAME OVER</h2>
-                      <img src = "public/again.webp" class = "winners-image" alt = "winning">
+                      <img src = "public/broke.gif" class = "winners-image" alt = "winning">
                       <button class ="tryagain">Restart?</button>
                     </div>
                     `
@@ -381,7 +381,7 @@ async function card() {
                   `
                   <div class = "Bust">
                     <h2>You not only lost to a computer but you are also broke. GAME OVER</h2>
-                    <img src = "public/again.webp" class = "winners-image" alt = "winning">
+                    <img src = "public/broke.gif" class = "winners-image" alt = "winning">
                     <button class ="tryagain">Restart?</button>
                   </div>
                   `
