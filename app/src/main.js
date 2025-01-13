@@ -157,7 +157,7 @@ async function card() {
     if (response.status != 200) {
       throw new Error(response);
     } else {
-      //convert promise to json
+      
       
       let data = await response.json();
       console.log(data);
@@ -185,10 +185,51 @@ async function card() {
         let deckid = data.deck_id;
         console.log(deckid);
 
+        
+
+        const enemy = await fetch(
+          `https://deckofcardsapi.com/api/deck/${deckid}/draw/?count=1`
+        );
+        let deck = await enemy.json();
+
+        let enemycard1 = deck.cards[0];
+        console.log(enemycard1);
+
+        
+
+        enemyvalue1 = checkvalue(enemycard1);
+        
+
+        if (
+          (typeof enemyvalue1 === "number") 
+        ) {
+          enemytotal = enemyvalue1 
+          
+          console.log(enemytotal);
+          document.querySelector(".container").insertAdjacentHTML(
+            "beforeend",
+            `
+            <div class = "ETotal">
+              <h2>${enemytotal} Opponent's cards:</h2>
+            </div>
+            `
+          );
+        }
+        document.querySelector(".container").insertAdjacentHTML(
+          "beforeend",
+          `
+          <div class = "enemycards">
+            <img src = "${enemycard1.image}" class = "enemycard-image" alt = "enemycard1">
+            
+            
+          </div>
+          `
+        );
+
         const bruh = await fetch(
           `https://deckofcardsapi.com/api/deck/${deckid}/draw/?count=2`
         );
-        let deck = await bruh.json();
+        deck = await bruh.json();
 
         
 
@@ -237,44 +278,6 @@ async function card() {
           `
         );
 
-        const enemy = await fetch(
-          `https://deckofcardsapi.com/api/deck/${deckid}/draw/?count=1`
-        );
-        deck = await enemy.json();
-
-        let enemycard1 = deck.cards[0];
-        console.log(enemycard1);
-
-        
-
-        enemyvalue1 = checkvalue(enemycard1);
-        
-
-        if (
-          (typeof enemyvalue1 === "number") 
-        ) {
-          enemytotal = enemyvalue1 
-          
-          console.log(enemytotal);
-          document.querySelector(".container").insertAdjacentHTML(
-            "beforeend",
-            `
-            <div class = "ETotal">
-              <h2>${enemytotal} Opponent's cards:</h2>
-            </div>
-            `
-          );
-        }
-        document.querySelector(".container").insertAdjacentHTML(
-          "beforeend",
-          `
-          <div class = "enemycards">
-            <img src = "${enemycard1.image}" class = "enemycard-image" alt = "enemycard1">
-            
-            
-          </div>
-          `
-        );
         if (yourtotal === 21){
           document.querySelector(".hitorstand").innerHTML = "";
           document.querySelector(".container").insertAdjacentHTML(
@@ -446,4 +449,4 @@ async function playgame() {
 }
 
 playgame();
-//card();
+
