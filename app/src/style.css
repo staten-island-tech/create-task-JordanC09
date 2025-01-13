@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input{
+    height: 25px;
+    width: 200px;
+    margin-bottom: 15px;
+}
