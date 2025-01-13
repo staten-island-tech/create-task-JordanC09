@@ -333,7 +333,7 @@ async function card() {
             document
               .querySelector(".standbutton")
               .addEventListener("click", async function () {
-                while (enemytotal < yourtotal || enemytotal === 21) {
+                while (enemytotal < yourtotal || enemytotal !== 21) {
                   enemytotal = await hit(deckid, enemytotal, deck, "Enemy");
                   bustorno(enemytotal, "Enemy");
                   console.log("end of loop");
